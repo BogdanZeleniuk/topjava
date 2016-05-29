@@ -3,11 +3,13 @@ package ru.javawebinar.topjava.util;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.model.UserMealWithExceed;
 
+import java.security.KeyStore;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * GKislin
@@ -29,7 +31,37 @@ public class UserMealsUtil {
     }
 
     public static List<UserMealWithExceed>  getFilteredMealsWithExceeded(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
-        // TODO return filtered list with correctly exceeded field
-        return null;
+
+        Map<LocalDate, Integer> map = new HashMap<>();
+        List<UserMeal> list = mealList;
+        for (int i=0; i<list.size(); i++){
+            int sum = 0;
+            LocalDate localDate = list.get(i).getDateTime().toLocalDate();
+            for (int j=0; j<list.size(); j++){
+                if(list.get(j).getDateTime().toLocalDate().equals(localDate)){
+                    sum+=list.get(j).getCalories();
+                }
+            }
+            if (!map.containsKey(localDate)) {
+                map.put(localDate, sum);
+            }
+        }
+        List<UserMealWithExceed> userMealWithExceedList = new ArrayList<>();
+        for (Map.Entry<LocalDate,Integer> entry : map.entrySet()){
+            LocalDate key = entry.getKey();
+            Integer value = entry.getValue();
+            for (UserMeal um : list){
+                if (um.getDateTime().toLocalDate().equals(key) &&
+                        TimeUtil.isBetween(um.getDateTime().toLocalTime(),startTime,endTime) && value>caloriesPerDay){
+                    userMealWithExceedList.add(new UserMealWithExceed(um.getDateTime(),um.getDescription(),um.getCalories(),false));
+                }
+                else if (um.getDateTime().toLocalDate().equals(key) &&
+                        TimeUtil.isBetween(um.getDateTime().toLocalTime(),startTime,endTime) && value<=caloriesPerDay){
+                    userMealWithExceedList.add(new UserMealWithExceed(um.getDateTime(),um.getDescription(),um.getCalories(),true));
+                }
+            }
+        }
+
+        return userMealWithExceedList;
     }
 }
