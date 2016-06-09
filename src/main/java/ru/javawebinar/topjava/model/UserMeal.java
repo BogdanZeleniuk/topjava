@@ -8,13 +8,13 @@ import java.time.LocalDateTime;
  */
 public class UserMeal {
 
-    protected Integer id;
+    private Integer id;
 
-    protected final LocalDateTime dateTime;
+    private final LocalDateTime dateTime;
 
-    protected final String description;
+    private final String description;
 
-    protected final int calories;
+    private final int calories;
 
     public UserMeal(LocalDateTime dateTime, String description, int calories) {
         this(null,dateTime,description,calories);
