@@ -17,13 +17,13 @@
     </jdbc:initialize-database>
 
     <!--no pooling-->
-    <bean id="dataSource"
-          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="${database.driverClassName}"/>
-        <property name="url" value="${database.url}"/>
-        <property name="username" value="postgres"/>
-        <property name="password" value="${database.password}"/>
-    </bean>
+    <!--<bean id="dataSource"-->
+          <!--class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
+        <!--<property name="driverClassName" value="${database.driverClassName}"/>-->
+        <!--<property name="url" value="${database.url}"/>-->
+        <!--<property name="username" value="postgres"/>-->
+        <!--<property name="password" value="${database.password}"/>-->
+    <!--</bean>-->
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
           p:dataSource-ref="dataSource"
