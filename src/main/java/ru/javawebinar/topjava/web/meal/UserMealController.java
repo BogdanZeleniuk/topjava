@@ -46,8 +46,9 @@ public class UserMealController extends AbstractUserMealController {
 
     @RequestMapping(value = "/meals", method = RequestMethod.POST)
     public String edit(HttpServletRequest request){
-        int id = Integer.valueOf(request.getParameter("id"));
-        final UserMeal meal = new UserMeal(LocalDateTime.parse(request.getParameter("dateTime")),
+        String id = request.getParameter("id");
+        UserMeal meal = new UserMeal(
+                id.isEmpty() ? null : Integer.valueOf(id), LocalDateTime.parse(request.getParameter("dateTime")),
                 request.getParameter("description"),
                 Integer.valueOf(request.getParameter("calories")));
         if (meal.isNew()){
@@ -55,7 +56,7 @@ public class UserMealController extends AbstractUserMealController {
         }
         else
         {
-            super.update(meal,id);
+            super.update(meal,meal.getId());
         }
         return "redirect:/meals";
     }

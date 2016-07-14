@@ -18,12 +18,11 @@ import java.util.List;
 /**
  * Created by Admin on 14.07.2016.
  */
-@Controller
-public class AbstractUserMealController {
-    protected static final Logger LOG = LoggerFactory.getLogger(UserMealRestController.class);
+public abstract class AbstractUserMealController {
+    private static final Logger LOG = LoggerFactory.getLogger(UserMealRestController.class);
 
     @Autowired
-    protected UserMealService service;
+    private UserMealService service;
 
     public UserMeal get(int id) {
         int userId = AuthorizedUser.id();
