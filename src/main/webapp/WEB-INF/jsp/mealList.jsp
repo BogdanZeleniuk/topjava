@@ -48,7 +48,7 @@
                         </div>
                     </div>
                 </form>
-                <a class="btn btn-sm btn-info" id="add"><fmt:message key="meals.add"/></a>
+                <a class="btn btn-sm btn-info" onclick="add()"><fmt:message key="meals.add"/></a>
                 <table class="table table-striped display" id="datatable">
                     <thead>
                     <tr>
@@ -69,8 +69,8 @@
                             </td>
                             <td>${meal.description}</td>
                             <td>${meal.calories}</td>
-                            <td><a class="btn btn-xs btn-primary edit" id="${meal.id}">Edit</a></td>
-                            <td><a class="btn btn-xs btn-danger delete" id="${meal.id}">Delete</a></td>
+                            <td><a class="btn btn-xs btn-primary">Edit</a></td>
+                            <td><a class="btn btn-xs btn-danger" onclick="deleteRow(${meal.id})">Delete</a></td>
                         </tr>
                     </c:forEach>
                 </table>
@@ -140,38 +140,36 @@
             type: "POST",
             url: ajaxUrl + 'filter',
             data: $('#filter').serialize(),
-            success: function (data) {
-                updateTableByData(data);
-            }
+            success: updateTableByData
         });
         return false;
     }
 
     $(function () {
-        datatableApi = $('#datatable').dataTable(
+        datatableApi = $('#datatable').DataTable(
                 {
-                    "bPaginate": false,
-                    "bInfo": true,
-                    "aoColumns": [
+                    "paging": false,
+                    "info": true,
+                    "columns": [
                         {
-                            "mData": "dateTime"
+                            "data": "dateTime"
                         },
                         {
-                            "mData": "description"
+                            "data": "description"
                         },
                         {
-                            "mData": "calories"
+                            "data": "calories"
                         },
                         {
-                            "sDefaultContent": "Edit",
-                            "bSortable": false
+                            "defaultContent": "Edit",
+                            "orderable": false
                         },
                         {
-                            "sDefaultContent": "Delete",
-                            "bSortable": false
+                            "defaultContent": "Delete",
+                            "orderable": false
                         }
                     ],
-                    "aaSorting": [
+                    "order": [
                         [
                             0,
                             "desc"
